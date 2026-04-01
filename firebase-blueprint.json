@@ -1,0 +1,47 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "User Profile",
+      "description": "Stores user physical data for personalized calorie goals.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "weight_kg": { "type": "number" },
+        "height_cm": { "type": "number" },
+        "age": { "type": "integer" },
+        "gender": { "type": "string", "enum": ["male", "female", "other"] },
+        "activity_level": { "type": "string", "enum": ["sedentary", "light", "moderate", "active", "very_active"] },
+        "daily_calorie_goal": { "type": "number" }
+      },
+      "required": ["userId", "weight_kg", "height_cm", "age", "gender", "activity_level", "daily_calorie_goal"]
+    },
+    "MealLog": {
+      "title": "Meal Log",
+      "description": "Stores a single meal's nutritional data.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "timestamp": { "type": "string", "format": "date-time" },
+        "meal_type": { "type": "string", "enum": ["breakfast", "brunch", "lunch", "dinner", "snack"] },
+        "dish_name": { "type": "string" },
+        "calories": { "type": "number" },
+        "protein": { "type": "number" },
+        "carbs": { "type": "number" },
+        "fat": { "type": "number" },
+        "total_cost": { "type": "number" },
+        "restaurant_name": { "type": "string" }
+      },
+      "required": ["userId", "timestamp", "meal_type", "dish_name", "calories", "protein", "carbs", "fat", "total_cost"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "UserProfile",
+      "description": "User profile data."
+    },
+    "/meals/{mealId}": {
+      "schema": "MealLog",
+      "description": "Individual meal logs."
+    }
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "name": "MetaboSutra",
+  "description": "Your Personal Health & Wellness Tracker with AI-powered food analysis.",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}

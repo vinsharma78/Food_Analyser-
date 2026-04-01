@@ -1,0 +1,9 @@
+@import "tailwindcss";
+
+@theme {
+  --color-brand-purple: #5E2B97;
+  --color-brand-orange: #FF7A00;
+  --color-brand-bg: #F9F9F9;
+  
+  --background-image-brand-gradient: linear-gradient(to right, #5E2B97, #FF7A00);
+}
