@@ -1714,7 +1714,7 @@ export default function App() {
               <button
                 onClick={() => setMode("home")}
                 className={cn(
-                  "flex items-center gap-2 px-5 py-2 rounded-lg text-[10px] font-black uppercase tracking-wider transition-all",
+                  "flex items-center gap-2 px-5 py-2 rounded-lg text-[10px] font-black uppercase tracking-wider transition-all font-aptos",
                   mode === "home" ? "bg-white shadow-sm text-[#5E2B97]" : "text-[#9E9E9E] hover:text-[#5E2B97]"
                 )}
               >
@@ -1724,7 +1724,7 @@ export default function App() {
               <button
                 onClick={() => setMode("restaurant")}
                 className={cn(
-                  "flex items-center gap-2 px-5 py-2 rounded-lg text-[10px] font-black uppercase tracking-wider transition-all",
+                  "flex items-center gap-2 px-5 py-2 rounded-lg text-[10px] font-black uppercase tracking-wider transition-all font-aptos",
                   mode === "restaurant" ? "bg-white shadow-sm text-[#5E2B97]" : "text-[#9E9E9E] hover:text-[#5E2B97]"
                 )}
               >
@@ -1781,7 +1781,7 @@ export default function App() {
           <button
             onClick={() => setCurrentMainTab("tracker")}
             className={cn(
-              "px-5 py-2.5 rounded-full text-[9px] md:text-[10px] font-black uppercase tracking-widest transition-all duration-300 flex items-center gap-1.5",
+              "px-5 py-2.5 rounded-full text-[9px] md:text-[10px] font-black uppercase tracking-widest transition-all duration-300 flex items-center gap-1.5 font-aptos",
               currentMainTab === "tracker" 
                 ? "bg-[#5E2B97] text-white shadow-xl shadow-purple-500/10 scale-105" 
                 : "text-[#9E9E9E] hover:text-[#5E2B97] bg-transparent hover:bg-[#F5F5F5]"
@@ -1792,7 +1792,7 @@ export default function App() {
           <button
             onClick={() => setCurrentMainTab("dashboard")}
             className={cn(
-              "px-5 py-2.5 rounded-full text-[9px] md:text-[10px] font-black uppercase tracking-widest transition-all duration-300 flex items-center gap-1.5",
+              "px-5 py-2.5 rounded-full text-[9px] md:text-[10px] font-black uppercase tracking-widest transition-all duration-300 flex items-center gap-1.5 font-aptos",
               currentMainTab === "dashboard" 
                 ? "bg-[#5E2B97] text-white shadow-xl shadow-purple-500/10 scale-105" 
                 : "text-[#9E9E9E] hover:text-[#5E2B97] bg-transparent hover:bg-[#F5F5F5]"
@@ -1803,7 +1803,7 @@ export default function App() {
           <button
             onClick={() => setCurrentMainTab("sutra_lab")}
             className={cn(
-              "px-5 py-2.5 rounded-full text-[9px] md:text-[10px] font-black uppercase tracking-widest transition-all duration-300 flex items-center gap-1.5",
+              "px-5 py-2.5 rounded-full text-[9px] md:text-[10px] font-black uppercase tracking-widest transition-all duration-300 flex items-center gap-1.5 font-aptos",
               currentMainTab === "sutra_lab" 
                 ? "bg-[#5E2B97] text-white shadow-xl shadow-purple-500/10 scale-105" 
                 : "text-[#9E9E9E] hover:text-[#5E2B97] bg-transparent hover:bg-[#F5F5F5]"
@@ -1820,7 +1820,7 @@ export default function App() {
           <button
             onClick={() => setMode("home")}
             className={cn(
-              "flex-1 flex items-center justify-center gap-2 py-1.5 rounded-md text-[9px] font-black uppercase tracking-wider transition-all",
+              "flex-1 flex items-center justify-center gap-2 py-1.5 rounded-md text-[9px] font-black uppercase tracking-wider transition-all font-aptos",
               mode === "home" ? "bg-white shadow-sm text-[#5E2B97]" : "text-[#9E9E9E]"
             )}
           >
@@ -1830,7 +1830,7 @@ export default function App() {
           <button
             onClick={() => setMode("restaurant")}
             className={cn(
-              "flex-1 flex items-center justify-center gap-2 py-1.5 rounded-md text-[9px] font-black uppercase tracking-wider transition-all",
+              "flex-1 flex items-center justify-center gap-2 py-1.5 rounded-md text-[9px] font-black uppercase tracking-wider transition-all font-aptos",
               mode === "restaurant" ? "bg-white shadow-sm text-[#5E2B97]" : "text-[#9E9E9E]"
             )}
           >
@@ -3516,7 +3516,7 @@ export default function App() {
       <footer className="max-w-6xl mx-auto px-6 md:px-8 py-12 md:py-20 border-t border-[#EEEEEE] flex flex-col md:flex-row items-center justify-between gap-8 md:gap-10 text-[#9E9E9E]">
         <div className="flex items-center gap-3">
           <Logo size={28} className="md:w-9 md:h-9" />
-          <span className="text-[8px] md:text-[10px] font-black uppercase tracking-[0.2em] md:tracking-[0.3em] text-[#4C1D95]">MetaboSutra v1.2</span>
+          <span className="text-[8px] md:text-[10px] font-black uppercase tracking-[0.2em] md:tracking-[0.3em] text-[#4C1D95] font-aptos">MetaboSutra v1.2</span>
         </div>
         <div className="flex flex-wrap justify-center items-center gap-x-6 md:gap-x-12 gap-y-3 md:gap-y-4 text-[7px] md:text-[9px] font-black uppercase tracking-[0.15em] md:tracking-[0.2em]">
           <span className="flex items-center gap-1.5 md:gap-2"><div className="w-1 h-1 rounded-full bg-[#FF6321]" /> Indian Market Priors</span>
