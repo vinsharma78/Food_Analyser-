@@ -35,6 +35,16 @@ export interface MealLog {
   enjoyment_rating?: number;
   bill_image_url?: string;
   actual_price?: number;
+  location?: string;
+  portion_size?: number; // e.g. 0.5 for 50%, defaults to 1.0
+  is_shared?: boolean;
+}
+
+export interface WaterLog {
+  id?: string;
+  userId: string;
+  timestamp: string; // ISO 8601 string
+  amount_ml: number;
 }
 
 export interface Micronutrient {
@@ -125,6 +135,13 @@ export interface FoodAnalysis {
   cost: Cost;
   metrics: Metrics;
   time_based_impact: TimeBasedImpact;
+  predicted_intent?: {
+    scenario: "info" | "consume";
+    consumption_status: "now" | "already" | "planned";
+    ascertained_time: string;
+    ascertained_date_offset_days: number;
+    explanation: string;
+  };
 }
 
 export type UserMode = "home" | "restaurant";

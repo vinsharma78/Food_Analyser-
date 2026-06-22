@@ -32,6 +32,17 @@
         "restaurant_name": { "type": "string" }
       },
       "required": ["userId", "timestamp", "meal_type", "dish_name", "calories", "protein", "carbs", "fat", "total_cost"]
+    },
+    "WaterLog": {
+      "title": "Water Log",
+      "description": "Stores user water intake records.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "timestamp": { "type": "string", "format": "date-time" },
+        "amount_ml": { "type": "number" }
+      },
+      "required": ["userId", "timestamp", "amount_ml"]
     }
   },
   "firestore": {
@@ -42,6 +53,10 @@
     "/meals/{mealId}": {
       "schema": "MealLog",
       "description": "Individual meal logs."
+    },
+    "/water_logs/{logId}": {
+      "schema": "WaterLog",
+      "description": "Water intake logs."
     }
   }
 }

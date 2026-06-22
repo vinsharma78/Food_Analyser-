@@ -2,6 +2,10 @@
   "name": "MetaboSutra",
   "description": "Your Personal Health & Wellness Tracker with AI-powered food analysis.",
   "requestFramePermissions": [
-    "camera"
+    "camera",
+    "geolocation"
+  ],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
   ]
 }

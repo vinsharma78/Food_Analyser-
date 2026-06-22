@@ -1,6 +1,11 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
+    // Global safety net catches all unspecified resources
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
     // ===============================================================
     // Assumed Data Model
     // ===============================================================
@@ -15,6 +20,7 @@ service cloud.firestore {
     //   - gender: string (required, male/female/other)
     //   - activity_level: string (required, sedentary/light/moderate/active/very_active)
     //   - daily_calorie_goal: number (required)
+    //   - role: string (optional, admin/user)
     //
     // Collection: meals
     // Document ID: mealId (auto-generated)
@@ -43,6 +49,13 @@ service cloud.firestore {
       return isAuthenticated() && request.auth.uid == userId;
     }
 
+    function isAdmin() {
+      return isAuthenticated() &&
+        ((request.auth.token.email == "vineethsharma@gmail.com" && request.auth.token.email_verified == true) ||
+         (exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
+          get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin'));
+    }
+
     function isDocOwner() {
       return isAuthenticated() && request.auth.uid == resource.data.userId;
     }
@@ -50,12 +63,12 @@ service cloud.firestore {
     function isValidUserProfile(data) {
       return data.keys().hasAll(['userId', 'weight_kg', 'height_cm', 'age', 'gender', 'activity_level', 'daily_calorie_goal']) &&
              data.userId == request.auth.uid &&
-             data.weight_kg is number && data.weight_kg > 0 &&
-             data.height_cm is number && data.height_cm > 0 &&
-             data.age is int && data.age > 0 &&
+             data.weight_kg is number && data.weight_kg > 0 && data.weight_kg < 500 &&
+             data.height_cm is number && data.height_cm > 0 && data.height_cm < 300 &&
+             data.age is int && data.age > 0 && data.age < 150 &&
              data.gender in ['male', 'female', 'other'] &&
              data.activity_level in ['sedentary', 'light', 'moderate', 'active', 'very_active'] &&
-             data.daily_calorie_goal is number && data.daily_calorie_goal > 0;
+             data.daily_calorie_goal is number && data.daily_calorie_goal > 0 && data.daily_calorie_goal < 10000;
     }
 
     function isValidMealLog(data) {
@@ -64,11 +77,18 @@ service cloud.firestore {
              data.timestamp is string &&
              data.meal_type in ['breakfast', 'brunch', 'lunch', 'dinner', 'snack'] &&
              data.dish_name is string && data.dish_name.size() > 0 && data.dish_name.size() < 100 &&
-             data.calories is number && data.calories >= 0 &&
-             data.protein is number && data.protein >= 0 &&
-             data.carbs is number && data.carbs >= 0 &&
-             data.fat is number && data.fat >= 0 &&
-             data.total_cost is number && data.total_cost >= 0;
+             data.calories is number && data.calories >= 0 && data.calories < 5000 &&
+             data.protein is number && data.protein >= 0 && data.protein < 500 &&
+             data.carbs is number && data.carbs >= 0 && data.carbs < 1000 &&
+             data.fat is number && data.fat >= 0 && data.fat < 500 &&
+             data.total_cost is number && data.total_cost >= 0 && data.total_cost < 100000;
+     }
+
+    function isValidWaterLog(data) {
+      return data.keys().hasAll(['userId', 'timestamp', 'amount_ml']) &&
+             data.userId == request.auth.uid &&
+             data.timestamp is string &&
+             data.amount_ml is number && data.amount_ml >= 0 && data.amount_ml < 10000;
     }
 
     // ===============================================================
@@ -76,16 +96,25 @@ service cloud.firestore {
     // ===============================================================
 
     match /users/{userId} {
-      allow read: if isOwner(userId);
-      allow create: if isOwner(userId) && isValidUserProfile(request.resource.data);
-      allow update: if isOwner(userId) && isValidUserProfile(request.resource.data);
+      allow read: if isOwner(userId) || isAdmin();
+      allow create: if isOwner(userId) && isValidUserProfile(request.resource.data) && (!('role' in request.resource.data) || request.resource.data.role == 'user');
+      allow update: if isOwner(userId) && isValidUserProfile(request.resource.data) && (request.resource.data.role == resource.data.role || isAdmin());
     }
 
     match /meals/{mealId} {
-      allow read: if isAuthenticated() && (resource == null || resource.data.userId == request.auth.uid);
+      allow get: if isAuthenticated() && (resource == null || resource.data.userId == request.auth.uid || isAdmin());
+      allow list: if isAuthenticated() && resource.data.userId == request.auth.uid;
       allow create: if isAuthenticated() && isValidMealLog(request.resource.data);
-      allow update: if isAuthenticated() && isDocOwner() && isValidMealLog(request.resource.data);
-      allow delete: if isAuthenticated() && isDocOwner();
+      allow update: if isAuthenticated() && (isDocOwner() || isAdmin()) && isValidMealLog(request.resource.data);
+      allow delete: if isAuthenticated() && (isDocOwner() || isAdmin());
+    }
+
+    match /water_logs/{logId} {
+      allow get: if isAuthenticated() && (resource == null || resource.data.userId == request.auth.uid || isAdmin());
+      allow list: if isAuthenticated() && resource.data.userId == request.auth.uid;
+      allow create: if isAuthenticated() && isValidWaterLog(request.resource.data);
+      allow update: if isAuthenticated() && (isDocOwner() || isAdmin()) && isValidWaterLog(request.resource.data);
+      allow delete: if isAuthenticated() && (isDocOwner() || isAdmin());
     }
   }
 }

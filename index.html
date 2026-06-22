@@ -2,12 +2,38 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>My Google AI Studio App</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    
+    <!-- Custom PWA Attributes -->
+    <title>MetaboSutra</title>
+    <meta name="theme-color" content="#090d16" />
+    <meta name="description" content="Vedic Science & Deep Bio-Telemetry for Cellular Healing and Agni Balancing." />
+    <link rel="manifest" href="/manifest.json" />
+
+    <!-- iOS Native Experience Support -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="MetaboSutra" />
+    <link rel="apple-touch-icon" href="/branding/MetaboSutra Logo.png" />
   </head>
-  <body>
+  <body class="bg-slate-950 text-white min-h-screen">
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
+
+    <!-- Register service worker -->
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js')
+            .then((registration) => {
+              console.log('MetaboSutra Service Worker registered in PWA mode:', registration.scope);
+            })
+            .catch((error) => {
+              console.log('PWA Service Worker registration failed:', error);
+            });
+        });
+      }
+    </script>
   </body>
 </html>
 
